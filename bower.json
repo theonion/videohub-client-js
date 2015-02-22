@@ -2,6 +2,7 @@
   "name": "videohub-client",
   "version": "0.0.1",
   "appPath": "src",
+  "private": true,
   "description": "America's Finest Videohub cms client module",
   "main": [
     "dist/videohub-client.js"
