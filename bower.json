@@ -1,6 +1,6 @@
 {
   "name": "videohub-client",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "appPath": "src",
   "private": true,
   "description": "America's Finest Videohub cms client module",
@@ -20,7 +20,6 @@
   ],
   "dependencies": {
     "angular": "~1.3.12",
-    "lodash": "~3.1.0",
     "bulbs-autocomplete": "theonion/bulbs-autocomplete#449eeed88d942d1bb534c0d2b1dd387346dc1498",
     "restangular": "~1.4.0"
   },
