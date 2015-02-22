@@ -1,0 +1,70 @@
+<html lang="en" ng-app="VideohubSuggest.example">
+
+<head>
+  <title>videohub-client.js</title>
+
+  <style>
+    bulbs-autocomplete-suggest ul li {
+      border: 1px solid #000;
+      color: #000;
+    }
+    bulbs-autocomplete-suggest ul li.active {
+      background-color: #00f;
+      border: 1px solid #fff;
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div ng-controller="exampleController">
+    <h1 ng-bind="{{ selectedSuggest }}"></h1>
+    Search:
+    <videohub-suggest video="selectedSuggest"></videohub-suggest>
+  </div>
+  <div ng-controller="exampleController">
+    Pick:
+    <videohub-video-picker video="content.video"></videohub-video-picker>
+    <div>{{ content }}</div>
+  </div>
+  <div ng-controller="exampleController">
+    Pick:
+    <videohub-video-picker video="content.video" channel="ClickHole"></videohub-video-picker>
+    <div>{{ content }}</div>
+  </div>
+
+  <!-- bower:js -->
+  <script src="../bower_components/jquery/dist/jquery.js"></script>
+  <script src="../bower_components/angular/angular.js"></script>
+  <script src="../bower_components/lodash/dist/lodash.compat.js"></script>
+  <script src="../bower_components/bulbs-autocomplete/dist/bulbs-autocomplete.js"></script>
+  <script src="../bower_components/restangular/dist/restangular.js"></script>
+  <script src="../bower_components/angular-mocks/angular-mocks.js"></script>
+  <!-- endbower-->
+  <!-- injector:js -->
+  <script src="/src/videohub-client/videohub-api-mocks.js"></script>
+  <script src="/src/videohub-client/videohub-api.js"></script>
+  <script src="/src/videohub-client/videohub-client.js"></script>
+  <script src="/src/videohub-client/videohub-settings.js"></script>
+  <script src="/src/videohub-client/videohub-suggest/videohub-picker-directive.js"></script>
+  <script src="/src/videohub-client/videohub-suggest/videohub-suggest-directive.js"></script>
+  <!-- endinjector -->
+
+  <script>
+    angular.module('VideohubClient.settings')
+      .value('videohubApiBaseUrl', 'http://poop.local/api/v0')
+    angular.module('VideohubSuggest.example', [
+      'VideohubClient', 'VideohubClient.api.mocks'
+    ])
+      .controller('exampleController', function($scope) {
+        $scope.selectedSuggest = null;
+        $scope.content = {
+          title: 'Some Video Content',
+          video: null
+        };
+      });
+  </script>
+</body>
+
+</html>

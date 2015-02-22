@@ -1,0 +1,11 @@
+<div class="videohub-video-picker">
+  <div ng-show="!video">
+    <videohub-suggest video="video" channel="{{ channel }}"></videohub-suggest>
+  </div>
+  <div ng-show="video" class="videohub-video-picker-choice">
+    <span ng-bind="video.title"></span>
+    <button class="btn btn-xs" ng-click="reset()">
+      <i class="glyphicon glyphicon-remove"></i>
+    </button>
+  </div>
+</div>
