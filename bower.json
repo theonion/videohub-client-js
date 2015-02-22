@@ -21,7 +21,7 @@
   "dependencies": {
     "angular": "~1.3.12",
     "lodash": "~3.1.0",
-    "bulbs-autocomplete": "~0.1.13",
+    "bulbs-autocomplete": "theonion/bulbs-autocomplete#449eeed88d942d1bb534c0d2b1dd387346dc1498",
     "restangular": "~1.4.0"
   },
   "devDependencies": {
