@@ -19,7 +19,8 @@
     "tests"
   ],
   "dependencies": {
-    "bulbs-autocomplete": "theonion/bulbs-autocomplete#740567adf062ce21c1d1bbadb8e50e61c884715f",
+    "angular": "^1.2.0",
+    "bulbs-autocomplete": "theonion/bulbs-autocomplete#ce518c8ee9cef28415568a84881df0c5c5d6cf55",
     "restangular": "~1.4.0"
   },
   "devDependencies": {
