@@ -145,12 +145,9 @@ angular.module('VideohubClient.suggest.directive', [
 // Source: .tmp/videohub-client-templates.js
 angular.module('VideohubClient').run(['$templateCache', function($templateCache) {
 $templateCache.put('src/videohub-client/videohub-suggest/videohub-picker-directive.html',
-    "<div class=videohub-video-picker><div ng-show=!video><videohub-suggest video=video channel=\"{{ channel }}\"></videohub-suggest></div><div ng-show=video class=videohub-video-picker-choice><span ng-bind=video.title></span> <button class=\"btn btn-xs\" ng-click=reset()><i class=\"glyphicon glyphicon-remove\"></i></button></div></div>"
+    "<div class=videohub-video-picker><div ng-show=!video><videohub-suggest video=video channel=\"{{ channel }}\"></videohub-suggest></div><div ng-show=video class=videohub-video-picker-choice><span ng-bind=video.title></span> <button ng-click=reset() class=\"btn btn-link glyphicon glyphicon-remove-sign\"><span class=\"hidden\">Clear</span></button></div></div>"
   );
-
-
   $templateCache.put('src/videohub-client/videohub-suggest/videohub-suggest-directive.html',
-    "<input ng-model=searchTerm ng-change=updateAutocomplete() ng-keydown=handleKeypress($event) ng-keydown=handleKeypress($event) ng-attr-placeholder=\"{{ placeholder }}\"><bulbs-autocomplete-suggest formatter=suggestFormatter(item) items=autocompleteItems on-select=suggestSelect(selection)></bulbs-autocomplete-suggest>"
+    "<input class=\"form-control\" ng-model=searchTerm ng-change=updateAutocomplete() ng-keydown=handleKeypress($event) ng-keydown=handleKeypress($event) ng-attr-placeholder=\"{{ placeholder }}\"><bulbs-autocomplete-suggest formatter=suggestFormatter(item) items=autocompleteItems on-select=suggestSelect(selection)></bulbs-autocomplete-suggest>"
   );
-
 }]);
