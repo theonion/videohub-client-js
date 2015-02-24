@@ -1,3 +1,3 @@
-<input type="text" ng-model="searchTerm" ng-change="updateAutocomplete()" ng-keydown="handleKeypress($event)" ng-keydown="handleKeypress($event)" ng-attr-placeholder="{{ placeholder }}">
+<input class="form-control" type="text" ng-model="searchTerm" ng-change="updateAutocomplete()" ng-keydown="handleKeypress($event)" ng-keydown="handleKeypress($event)" ng-attr-placeholder="{{ placeholder }}">
 <bulbs-autocomplete-suggest formatter="suggestFormatter(item)" items="autocompleteItems" on-select="suggestSelect(selection)">
 </bulbs-autocomplete-suggest>
