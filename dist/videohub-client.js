@@ -145,7 +145,7 @@ angular.module('VideohubClient.suggest.directive', [
 // Source: .tmp/videohub-client-templates.js
 angular.module('VideohubClient').run(['$templateCache', function($templateCache) {
 $templateCache.put('src/videohub-client/videohub-suggest/videohub-picker-directive.html',
-    "<div class=videohub-video-picker><div ng-show=!video><videohub-suggest video=video channel=\"{{ channel }}\"></videohub-suggest></div><div ng-show=video class=videohub-video-picker-choice><span ng-bind=video.title></span> <button class=\"btn btn-link glyphicon glyphicon-remove-sign\" ng-click=reset()><i class=hidde>Clear</i></button></div></div>"
+    "<div class=videohub-video-picker><div ng-show=!video><videohub-suggest video=video channel=\"{{ channel }}\"></videohub-suggest></div><div ng-show=video class=videohub-video-picker-choice><span ng-bind=video.title></span> <button class=\"btn btn-link glyphicon glyphicon-remove-sign\" ng-click=reset()><span class=hidden>Clear</span></button></div></div>"
   );
 
 
