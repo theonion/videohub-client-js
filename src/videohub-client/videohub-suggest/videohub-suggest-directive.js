@@ -13,9 +13,10 @@ angular.module('VideohubClient.suggest.directive', [
         'video': '=',
         'channel': '@'
       },
-      controller: function ($scope, $q, VideohubVideoApi, BulbsAutocomplete, BULBS_AUTOCOMPLETE_EVENT_KEYPRESS) {
+      controller: function ($scope, $q, VideohubVideoApi, BULBS_AUTOCOMPLETE_EVENT_KEYPRESS) {
         $scope.placeholder = 'Search ' + ($scope.channel || 'All') + ' Videos';
-        var autocomplete = new BulbsAutocomplete(function getItems() {
+
+        var $getItems = function () {
           var defer = $q.defer();
           if ($scope.searchTerm) {
             var params = {
@@ -33,7 +34,7 @@ angular.module('VideohubClient.suggest.directive', [
             defer.resolve([]);
           }
           return defer.promise;
-        });
+        };
 
         $scope.suggestFormatter = function(item) {
           return item.title;
@@ -45,7 +46,7 @@ angular.module('VideohubClient.suggest.directive', [
         };
 
         $scope.updateAutocomplete = function() {
-          autocomplete.$retrieve().then(function(results) {
+          $getItems().then(function(results) {
             $scope.autocompleteItems = results;
           });
         };

@@ -97,9 +97,10 @@ angular.module('VideohubClient.suggest.directive', [
         'video': '=',
         'channel': '@'
       },
-      controller: function ($scope, $q, VideohubVideoApi, BulbsAutocomplete, BULBS_AUTOCOMPLETE_EVENT_KEYPRESS) {
+      controller: function ($scope, $q, VideohubVideoApi, BULBS_AUTOCOMPLETE_EVENT_KEYPRESS) {
         $scope.placeholder = 'Search ' + ($scope.channel || 'All') + ' Videos';
-        var autocomplete = new BulbsAutocomplete(function getItems() {
+
+        var $getItems = function () {
           var defer = $q.defer();
           if ($scope.searchTerm) {
             var params = {
@@ -117,7 +118,7 @@ angular.module('VideohubClient.suggest.directive', [
             defer.resolve([]);
           }
           return defer.promise;
-        });
+        };
 
         $scope.suggestFormatter = function(item) {
           return item.title;
@@ -129,7 +130,7 @@ angular.module('VideohubClient.suggest.directive', [
         };
 
         $scope.updateAutocomplete = function() {
-          autocomplete.$retrieve().then(function(results) {
+          $getItems().then(function(results) {
             $scope.autocompleteItems = results;
           });
         };
@@ -145,7 +146,7 @@ angular.module('VideohubClient.suggest.directive', [
 // Source: .tmp/videohub-client-templates.js
 angular.module('VideohubClient').run(['$templateCache', function($templateCache) {
 $templateCache.put('src/videohub-client/videohub-suggest/videohub-picker-directive.html',
-    "<div class=videohub-video-picker><div ng-show=!video><videohub-suggest video=video channel=\"{{ channel }}\"></videohub-suggest></div><div ng-show=video class=videohub-video-picker-choice><span ng-bind=video.title></span> <button class=\"btn btn-link glyphicon glyphicon-remove-sign\" ng-click=reset()><i class=hidde>Clear</i></button></div></div>"
+    "<div class=videohub-video-picker><div ng-show=!video><videohub-suggest video=video channel=\"{{ channel }}\"></videohub-suggest></div><div ng-show=video class=videohub-video-picker-choice><span ng-bind=video.title></span> <button class=\"btn btn-link glyphicon glyphicon-remove-sign\" ng-click=reset()><span class=hidden>Clear</span></button></div></div>"
   );
 
 
