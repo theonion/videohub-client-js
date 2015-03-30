@@ -14,10 +14,10 @@ angular.module('VideohubClient.suggest.directive', [
         onSelect: '&',
         givenChannel: '@channel'
       },
-      controller: function ($scope, $q, VideohubVideoApi, BULBS_AUTOCOMPLETE_EVENT_KEYPRESS,
-          videohubDefaultChannel) {
+      controller: function ($scope, $q, Video, BULBS_AUTOCOMPLETE_EVENT_KEYPRESS,
+          VIDEOHUB_DEFAULT_CHANNEL) {
 
-        $scope.channel = $scope.givenChannel || videohubDefaultChannel;
+        $scope.channel = $scope.givenChannel || VIDEOHUB_DEFAULT_CHANNEL;
 
         $scope.placeholder = 'Search ' + ($scope.channel || 'All') + ' Videos';
 
@@ -32,8 +32,8 @@ angular.module('VideohubClient.suggest.directive', [
                 channel: $scope.channel
               };
             }
-            VideohubVideoApi.all('search').post(params).then(function (data) {
-              defer.resolve(data.results);
+            Video.$postSearch(params).then(function (videos) {
+              defer.resolve(videos);
             });
           } else {
             defer.resolve([]);

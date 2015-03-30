@@ -1,11 +1,11 @@
 // Source: src/videohub-client/videohub-api.js
 angular.module('VideohubClient.api', ['restangular', 'VideohubClient.settings'])
-  .factory('VideohubApi', function (Restangular, videohubApiBaseUrl, videohubSecretToken) {
+  .factory('VideohubApi', function (Restangular, VIDEOHUB_API_BASE_URL, VIDEOHUB_SECRET_TOKEN) {
     return Restangular.withConfig(function (RestangularConfigurer) {
       RestangularConfigurer.setRequestSuffix('');
-      RestangularConfigurer.setBaseUrl(videohubApiBaseUrl);
+      RestangularConfigurer.setBaseUrl(VIDEOHUB_API_BASE_URL);
       RestangularConfigurer.setDefaultHeaders({
-        Authorization: 'Token ' + videohubSecretToken
+        Authorization: 'Token ' + VIDEOHUB_SECRET_TOKEN
       });
       RestangularConfigurer.addResponseInterceptor(function (data, operation, what) {
         if (what === 'search' && operation === 'post') {
@@ -63,9 +63,9 @@ angular.module('VideohubClient', [
 
 // Source: src/videohub-client/videohub-settings.js
 angular.module('VideohubClient.settings', [])
-  .value('videohubApiBaseUrl', 'http://videohub.local/api/v0')
-  .value('videohubSecretToken', 'BLAH BLAH')
-  .value('videohubDefaultChannel', 'The Onion');
+  .value('VIDEOHUB_API_BASE_URL', 'http://videohub.local/api/v0')
+  .value('VIDEOHUB_SECRET_TOKEN', 'BLAH BLAH')
+  .value('VIDEOHUB_DEFAULT_CHANNEL', 'The Onion');
 
 // Source: src/videohub-client/videohub-suggest/videohub-picker-directive.js
 angular.module('VideohubClient.picker.directive', [
@@ -111,9 +111,9 @@ angular.module('VideohubClient.suggest.directive', [
         givenChannel: '@channel'
       },
       controller: function ($scope, $q, VideohubVideoApi, BULBS_AUTOCOMPLETE_EVENT_KEYPRESS,
-          videohubDefaultChannel) {
+          VIDEOHUB_DEFAULT_CHANNEL) {
 
-        $scope.channel = $scope.givenChannel || videohubDefaultChannel;
+        $scope.channel = $scope.givenChannel || VIDEOHUB_DEFAULT_CHANNEL;
 
         $scope.placeholder = 'Search ' + ($scope.channel || 'All') + ' Videos';
 

@@ -1,14 +1,22 @@
 'use strict';
 
 angular.module('VideohubClient.api.mocks', ['VideohubClient.settings', 'ngMockE2E'])
-  .run(function ($httpBackend, videohubApiBaseUrl) {
-    $httpBackend.whenPOST(videohubApiBaseUrl + '/videos/search').respond(
+  .run(function ($httpBackend, VIDEOHUB_API_BASE_URL) {
+    $httpBackend.whenPOST(VIDEOHUB_API_BASE_URL + '/videos/search').respond(
       function (method, url, body) {
         var data = JSON.parse(body);
         var results = [
           {
             id: 1,
-            title: 'A Video',
+            title: 'An Onion Video 1',
+            description: 'Good video',
+            channel: {
+              name: 'The Onion',
+              description: 'News website'
+            }
+          }, {
+            id: 2,
+            title: 'An Onion Video 2',
             description: 'Good video',
             channel: {
               name: 'The Onion',
@@ -16,7 +24,7 @@ angular.module('VideohubClient.api.mocks', ['VideohubClient.settings', 'ngMockE2
             }
           },
           {
-            id: 2,
+            id: 3,
             title: 'Another Video',
             description: 'Another Good video',
             channel: {
