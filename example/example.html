@@ -34,13 +34,15 @@
     <videohub-video-picker on-select="onSelect(video)" channel="ClickHole"></videohub-video-picker>
     <div ng-if="selectedVideo">Selected video: {{ selectedVideo.id }} - {{ selectedVideo.title }}</div>
   </div>
+  <div ng-controller="exampleController">
+    A video: {{ aVideo.id }} - {{ aVideo.title }}
+  </div>
 
   <!-- bower:js -->
   <script src="../bower_components/jquery/dist/jquery.js"></script>
   <script src="../bower_components/angular/angular.js"></script>
   <script src="../bower_components/lodash/lodash.js"></script>
   <script src="../bower_components/bulbs-autocomplete/dist/bulbs-autocomplete.js"></script>
-  <script src="../bower_components/restangular/dist/restangular.js"></script>
   <script src="../bower_components/angular-inflector/dist/angular-inflector.min.js"></script>
   <script src="../bower_components/angular-restmod/dist/angular-restmod-bundle.min.js"></script>
   <script src="../bower_components/angular-mocks/angular-mocks.js"></script>
@@ -67,9 +69,11 @@
       .run(function ($httpBackend) {
         $httpBackend.whenGET().passThrough();
       })
-      .controller('exampleController', function($scope) {
+      .controller('exampleController', function($scope, Video) {
         $scope.selectedSuggest = null;
         $scope.selectedVideo = null;
+
+        $scope.aVideo = Video.$find(1);
 
         $scope.onSelect = function (video) {
           $scope.selectedVideo = video;
