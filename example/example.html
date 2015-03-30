@@ -13,29 +13,38 @@
       border: 1px solid #fff;
       color: #fff;
     }
+
+    .section {
+      margin-bottom: 15px;
+    }
   </style>
 </head>
 
 <body>
 
   <div ng-controller="exampleController">
-    <h1 ng-bind="{{ selectedSuggest.title }}"></h1>
-    Search (using default channel):
-    <videohub-suggest on-select="selectedSuggest = video"></videohub-suggest>
-    <div ng-if="selectedSuggest">Selected: {{ selectedSuggest.id }} - {{ selectedSuggest.title }}</div>
-  </div>
-  <div ng-controller="exampleController">
-    Pick (using default channel):
-    <videohub-video-picker on-select="onSelect(video)"></videohub-video-picker>
-    <div ng-if="selectedVideo">Selected video: {{ selectedVideo.id }} - {{ selectedVideo.title }}</div>
-  </div>
-  <div ng-controller="exampleController">
-    Pick (using ClickHole channel):
-    <videohub-video-picker on-select="onSelect(video)" channel="ClickHole"></videohub-video-picker>
-    <div ng-if="selectedVideo">Selected video: {{ selectedVideo.id }} - {{ selectedVideo.title }}</div>
-  </div>
-  <div ng-controller="exampleController">
-    A video: {{ aVideo.id }} - {{ aVideo.title }}
+    <div class="section">
+      <h1 ng-bind="{{ selectedSuggest.title }}"></h1>
+      <b>Search (using default channel):</b>
+      <videohub-suggest on-select="selectedSuggest = video"></videohub-suggest>
+      <div ng-if="selectedSuggest">Selected: {{ selectedSuggest.id }} - {{ selectedSuggest.title }}</div>
+    </div>
+
+    <div class="section">
+      <b>Pick (using default channel):</b>
+      <videohub-video-picker on-select="onSelect(video)"></videohub-video-picker>
+      <div ng-if="selectedVideo">Selected video: {{ selectedVideo.id }} - {{ selectedVideo.title }}</div>
+    </div>
+
+    <div class="section">
+      <b>Pick (using ClickHole channel):</b>
+      <videohub-video-picker on-select="onSelect(video)" channel="ClickHole"></videohub-video-picker>
+      <div ng-if="selectedVideo">Selected video: {{ selectedVideo.id }} - {{ selectedVideo.title }}</div>
+    </div>
+
+    <div class="section">
+      <b>A video</b>: {{ aVideo.id }} - {{ aVideo.title }}
+    </div>
   </div>
 
   <!-- bower:js -->
@@ -73,7 +82,9 @@
         $scope.selectedSuggest = null;
         $scope.selectedVideo = null;
 
-        $scope.aVideo = Video.$find(1);
+        $scope.aVideo = Video.$find(1).$then(function () {
+console.log(this, arguments)
+        });
 
         $scope.onSelect = function (video) {
           $scope.selectedVideo = video;

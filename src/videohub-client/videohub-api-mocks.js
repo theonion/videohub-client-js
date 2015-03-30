@@ -32,9 +32,10 @@ angular.module('VideohubClient.api.mocks', [
       }
     }];
 
-    $httpBackend.whenGET(VIDEOHUB_API_BASE_URL + '/videos').respond(videos);
+    var allEndpoint = new RegExp(VIDEOHUB_API_BASE_URL + '/videos\/?$');
+    $httpBackend.whenGET(allEndpoint).respond(videos);
 
-    var singleEndpoint = new RegExp(VIDEOHUB_API_BASE_URL + '/videos/(\\d+)');
+    var singleEndpoint = new RegExp(VIDEOHUB_API_BASE_URL + '/videos/(\\d+)\/?$');
     $httpBackend.whenGET(singleEndpoint).respond(function (method, url) {
       var matches = url.match(singleEndpoint);
       var video = _.find(videos, {id: Number(matches[1])});
@@ -46,8 +47,8 @@ angular.module('VideohubClient.api.mocks', [
       return [200, video];
     });
 
-    $httpBackend.whenPOST(VIDEOHUB_API_BASE_URL + '/videos/search').respond(
-      function (method, url, body) {
+    var searchEndpoint = new RegExp(VIDEOHUB_API_BASE_URL + '/videos/search\/?$');
+    $httpBackend.whenPOST(searchEndpoint).respond(function (method, url, body) {
         var data = JSON.parse(body);
         var results = videos;
         if (data.filters && data.filters.channel) {
@@ -61,5 +62,4 @@ angular.module('VideohubClient.api.mocks', [
         }];
       }
     );
-  }
-);
+  });
