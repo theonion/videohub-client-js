@@ -54,6 +54,7 @@
   <script src="../bower_components/bulbs-autocomplete/dist/bulbs-autocomplete.js"></script>
   <script src="../bower_components/angular-inflector/dist/angular-inflector.min.js"></script>
   <script src="../bower_components/angular-restmod/dist/angular-restmod-bundle.min.js"></script>
+  <script src="../bower_components/restmod-style-drf-paged/restmod-style-drf-paged.js"></script>
   <script src="../bower_components/angular-mocks/angular-mocks.js"></script>
   <!-- endbower-->
   <!-- injector:js -->
@@ -82,9 +83,7 @@
         $scope.selectedSuggest = null;
         $scope.selectedVideo = null;
 
-        $scope.aVideo = Video.$find(1).$then(function () {
-console.log(this, arguments)
-        });
+        $scope.aVideo = Video.$find(1);
 
         $scope.onSelect = function (video) {
           $scope.selectedVideo = video;
