@@ -3,17 +3,22 @@
 angular.module('VideohubClient.suggest.directive', [
   'BulbsAutocomplete',
   'BulbsAutocomplete.suggest',
-  'VideohubClient.api'
+  'VideohubClient.api',
+  'VideohubClient.settings'
 ]).directive('videohubSuggest', function () {
     return {
       replace: false,
       restrict: 'E',
       templateUrl: 'src/videohub-client/videohub-suggest/videohub-suggest-directive.html',
       scope: {
-        'video': '=',
-        'channel': '@'
+        video: '=',
+        givenChannel: '@channel'
       },
-      controller: function ($scope, $q, VideohubVideoApi, BULBS_AUTOCOMPLETE_EVENT_KEYPRESS) {
+      controller: function ($scope, $q, VideohubVideoApi, BULBS_AUTOCOMPLETE_EVENT_KEYPRESS,
+          videohubDefaultChannel) {
+
+        $scope.channel = $scope.givenChannel || videohubDefaultChannel;
+
         $scope.placeholder = 'Search ' + ($scope.channel || 'All') + ' Videos';
 
         var $getItems = function () {

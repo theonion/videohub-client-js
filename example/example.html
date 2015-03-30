@@ -20,16 +20,16 @@
 
   <div ng-controller="exampleController">
     <h1 ng-bind="{{ selectedSuggest }}"></h1>
-    Search:
+    Search (using default channel):
     <videohub-suggest video="selectedSuggest"></videohub-suggest>
   </div>
   <div ng-controller="exampleController">
-    Pick:
+    Pick (using default channel):
     <videohub-video-picker video="content.video"></videohub-video-picker>
     <div>{{ content }}</div>
   </div>
   <div ng-controller="exampleController">
-    Pick:
+    Pick (using ClickHole channel):
     <videohub-video-picker video="content.video" channel="ClickHole"></videohub-video-picker>
     <div>{{ content }}</div>
   </div>
