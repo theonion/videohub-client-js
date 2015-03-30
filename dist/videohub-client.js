@@ -74,14 +74,23 @@ angular.module('VideohubClient.picker.directive', [
   return {
     restrict: 'E',
     scope: {
-      video: '=',
+      onSelectAttr: '&onSelect',
       channel: '@'
     },
     templateUrl: 'src/videohub-client/videohub-suggest/videohub-picker-directive.html',
     controller: function ($scope) {
-      $scope.reset = function reset () {
+      $scope.video = null;
+
+      $scope.reset = function () {
         $scope.video = null;
+        $scope.onSelectAttr({video: null});
       };
+
+      $scope.onSelect = function (video) {
+        $scope.video = video;
+        $scope.onSelectAttr({video: video});
+      };
+
     }
   };
 });
@@ -98,7 +107,7 @@ angular.module('VideohubClient.suggest.directive', [
       restrict: 'E',
       templateUrl: 'src/videohub-client/videohub-suggest/videohub-suggest-directive.html',
       scope: {
-        video: '=',
+        onSelect: '&',
         givenChannel: '@channel'
       },
       controller: function ($scope, $q, VideohubVideoApi, BULBS_AUTOCOMPLETE_EVENT_KEYPRESS,
@@ -133,7 +142,7 @@ angular.module('VideohubClient.suggest.directive', [
         };
 
         $scope.suggestSelect = function(item) {
-          $scope.video = item;
+          $scope.onSelect({video: item});
           $scope.autocompleteItems = [];
         };
 
@@ -154,7 +163,7 @@ angular.module('VideohubClient.suggest.directive', [
 // Source: .tmp/videohub-client-templates.js
 angular.module('VideohubClient').run(['$templateCache', function($templateCache) {
 $templateCache.put('src/videohub-client/videohub-suggest/videohub-picker-directive.html',
-    "<div class=videohub-video-picker><div ng-show=!video><videohub-suggest video=video channel=\"{{ channel }}\"></videohub-suggest></div><div ng-show=video class=videohub-video-picker-choice><span ng-bind=video.title></span> <button class=\"btn btn-link glyphicon glyphicon-remove-sign\" ng-click=reset()><span class=hidden>Clear</span></button></div></div>"
+    "<div class=videohub-video-picker><div ng-show=!video><videohub-suggest on-select=onSelect(video) channel=\"{{ channel }}\"></videohub-suggest></div><div ng-show=video class=videohub-video-picker-choice><span ng-bind=video.title></span> <button class=\"btn btn-link glyphicon glyphicon-remove-sign\" ng-click=reset()><span class=hidden>Clear</span></button></div></div>"
   );
 
 
