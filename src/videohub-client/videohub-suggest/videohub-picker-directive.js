@@ -6,14 +6,23 @@ angular.module('VideohubClient.picker.directive', [
   return {
     restrict: 'E',
     scope: {
-      video: '=',
+      onSelectAttr: '&onSelect',
       channel: '@'
     },
     templateUrl: 'src/videohub-client/videohub-suggest/videohub-picker-directive.html',
     controller: function ($scope) {
-      $scope.reset = function reset () {
+      $scope.video = null;
+
+      $scope.reset = function () {
         $scope.video = null;
+        $scope.onSelectAttr({video: null});
       };
+
+      $scope.onSelect = function (video) {
+        $scope.video = video;
+        $scope.onSelectAttr({video: video});
+      };
+
     }
   };
 });

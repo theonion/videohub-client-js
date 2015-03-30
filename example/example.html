@@ -21,16 +21,16 @@
   <div ng-controller="exampleController">
     <h1 ng-bind="{{ selectedSuggest }}"></h1>
     Search (using default channel):
-    <videohub-suggest video="selectedSuggest"></videohub-suggest>
+    <videohub-suggest on-select="selectedSuggest = video"></videohub-suggest>
   </div>
   <div ng-controller="exampleController">
     Pick (using default channel):
-    <videohub-video-picker video="content.video"></videohub-video-picker>
+    <videohub-video-picker on-select="onSelect(video)"></videohub-video-picker>
     <div>{{ content }}</div>
   </div>
   <div ng-controller="exampleController">
     Pick (using ClickHole channel):
-    <videohub-video-picker video="content.video" channel="ClickHole"></videohub-video-picker>
+    <videohub-video-picker on-select="onSelect(video)" channel="ClickHole"></videohub-video-picker>
     <div>{{ content }}</div>
   </div>
 
@@ -69,6 +69,10 @@
         $scope.content = {
           title: 'Some Video Content',
           video: null
+        };
+
+        $scope.onSelect = function (video) {
+          $scope.content.video = video;
         };
       });
   </script>

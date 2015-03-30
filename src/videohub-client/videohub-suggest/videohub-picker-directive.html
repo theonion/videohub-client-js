@@ -1,6 +1,6 @@
 <div class="videohub-video-picker">
   <div ng-show="!video">
-    <videohub-suggest video="video" channel="{{ channel }}"></videohub-suggest>
+    <videohub-suggest on-select="onSelect(video)" channel="{{ channel }}"></videohub-suggest>
   </div>
   <div ng-show="video" class="videohub-video-picker-choice">
     <span ng-bind="video.title"></span>
