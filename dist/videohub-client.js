@@ -63,7 +63,9 @@ angular.module('VideohubClient', [
 // Source: src/videohub-client/videohub-settings.js
 angular.module('VideohubClient.settings', [])
   .value('videohubApiBaseUrl', 'http://videohub.local/api/v0')
-  .value('videohubSecretToken', 'BLAH BLAH');
+  .value('videohubSecretToken', 'BLAH BLAH')
+  .value('videohubDefaultChannel', 'The Onion');
+
 // Source: src/videohub-client/videohub-suggest/videohub-picker-directive.js
 angular.module('VideohubClient.picker.directive', [
   'VideohubClient.suggest.directive'
@@ -87,17 +89,22 @@ angular.module('VideohubClient.picker.directive', [
 angular.module('VideohubClient.suggest.directive', [
   'BulbsAutocomplete',
   'BulbsAutocomplete.suggest',
-  'VideohubClient.api'
+  'VideohubClient.api',
+  'VideohubClient.settings'
 ]).directive('videohubSuggest', function () {
     return {
       replace: false,
       restrict: 'E',
       templateUrl: 'src/videohub-client/videohub-suggest/videohub-suggest-directive.html',
       scope: {
-        'video': '=',
-        'channel': '@'
+        video: '=',
+        givenChannel: '@channel'
       },
-      controller: function ($scope, $q, VideohubVideoApi, BULBS_AUTOCOMPLETE_EVENT_KEYPRESS) {
+      controller: function ($scope, $q, VideohubVideoApi, BULBS_AUTOCOMPLETE_EVENT_KEYPRESS,
+          videohubDefaultChannel) {
+
+        $scope.channel = $scope.givenChannel || videohubDefaultChannel;
+
         $scope.placeholder = 'Search ' + ($scope.channel || 'All') + ' Videos';
 
         var $getItems = function () {
