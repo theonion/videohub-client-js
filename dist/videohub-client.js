@@ -8,6 +8,20 @@ angular.module('VideohubClient.api', [
     var videosEndpoint = 'videos';
     var searchEndpoint = videosEndpoint + '/search';
 
+    var videohubMix = {
+      $config: {
+        urlPrefix: VIDEOHUB_API_BASE_URL
+      },
+
+      $hooks: {
+        'before-request': function (_req) {
+          _req.headers = angular.extend(_req.headers || {}, {
+            Authorization: 'Token ' + VIDEOHUB_SECRET_TOKEN
+          });
+        }
+      }
+    };
+
     var gatherKeywords = function (record) {
       // extract some keywords for this video
       var keywords = [];
@@ -34,9 +48,8 @@ angular.module('VideohubClient.api', [
       record.keywords = keywords.join(' ');
     };
 
-    var Video = restmod.model(videosEndpoint).mix({
+    var Video = restmod.model(videosEndpoint).mix(videohubMix, {
       $config: {
-        urlPrefix: VIDEOHUB_API_BASE_URL,
         name: 'Video',
         plural: 'Videos',
         primaryKey: 'id'
@@ -56,11 +69,6 @@ angular.module('VideohubClient.api', [
       },
 
       $hooks: {
-        'before-request': function (_req) {
-          _req.headers = angular.extend(_req.headers, {
-            Authorization: 'Token ' + VIDEOHUB_SECRET_TOKEN
-          });
-        },
         'after-fetch': function () {
           gatherKeywords(this);
         },
@@ -83,11 +91,7 @@ angular.module('VideohubClient.api', [
       }
     });
 
-    var VideoSearch = restmod.model(searchEndpoint).mix({
-      $config: {
-        urlPrefix: VIDEOHUB_API_BASE_URL
-      },
-
+    var VideoSearch = restmod.model(searchEndpoint).mix(videohubMix, {
       results: {
         hasMany: 'Video'
       }
