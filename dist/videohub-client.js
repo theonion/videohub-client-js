@@ -1,7 +1,6 @@
 // Source: src/videohub-client/videohub-api.js
 angular.module('VideohubClient.api', [
   'restmod',
-  'restmod.styles.drfPaged',
   'VideohubClient.settings'
 ])
   .factory('Video', function (restmod, VIDEOHUB_API_BASE_URL, VIDEOHUB_SECRET_TOKEN) {
@@ -49,7 +48,7 @@ angular.module('VideohubClient.api', [
       record.keywords = keywords.join(' ');
     };
 
-    var Video = restmod.model(videosEndpoint).mix('DjangoDRFPagedApi', videohubMix, {
+    var Video = restmod.model(videosEndpoint).mix(videohubMix, {
       $config: {
         name: 'Video',
         plural: 'Videos',
@@ -92,7 +91,7 @@ angular.module('VideohubClient.api', [
       }
     });
 
-    var VideoSearch = restmod.model(searchEndpoint).mix('DjangoDRFPagedApi', videohubMix, {
+    var VideoSearch = restmod.model(searchEndpoint).mix(videohubMix, {
       $hooks: {
         'after-create': function (_req) {
           this.results = _req.data.results;
