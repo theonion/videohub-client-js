@@ -8,8 +8,8 @@ angular.module('VideohubClient.api', ['restangular', 'VideohubClient.settings'])
       RestangularConfigurer.setDefaultHeaders({
         Authorization: 'Token ' + videohubSecretToken
       });
-      RestangularConfigurer.addResponseInterceptor(function (data, operation, what, url, response, deferred) {
-        if (what == 'search' && operation === 'post') {
+      RestangularConfigurer.addResponseInterceptor(function (data, operation, what) {
+        if (what === 'search' && operation === 'post') {
           var newData = {
             count: data.count,
             results: _.map(data.results, function (value) {

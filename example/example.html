@@ -52,11 +52,18 @@
   <!-- endinjector -->
 
   <script>
+    'use strict';
+
     angular.module('VideohubClient.settings')
-      .value('videohubApiBaseUrl', 'http://poop.local/api/v0')
+      .value('videohubApiBaseUrl', 'http://poop.local/api/v0');
+
     angular.module('VideohubSuggest.example', [
-      'VideohubClient', 'VideohubClient.api.mocks'
+      'VideohubClient',
+      'VideohubClient.api.mocks'
     ])
+      .run(function ($httpBackend) {
+        $httpBackend.whenGET().passThrough();
+      })
       .controller('exampleController', function($scope) {
         $scope.selectedSuggest = null;
         $scope.content = {

@@ -2,7 +2,7 @@
 
 angular.module('VideohubClient.api.mocks', ['VideohubClient.settings', 'ngMockE2E'])
   .run(function ($httpBackend, videohubApiBaseUrl) {
-    $httpBackend.when('POST', videohubApiBaseUrl + '/videos/search').respond(
+    $httpBackend.whenPOST(videohubApiBaseUrl + '/videos/search').respond(
       function (method, url, body) {
         var data = JSON.parse(body);
         var results = [
@@ -27,7 +27,7 @@ angular.module('VideohubClient.api.mocks', ['VideohubClient.settings', 'ngMockE2
         ];
         if (data.filters && data.filters.channel) {
           results = _.filter(results, function (video) {
-            return video.channel.name == data.filters.channel;
+            return video.channel.name === data.filters.channel;
           });
         }
         return [200, {
@@ -36,6 +36,5 @@ angular.module('VideohubClient.api.mocks', ['VideohubClient.settings', 'ngMockE2
         }];
       }
     );
-    $httpBackend.whenGET().passThrough();
   }
 );
