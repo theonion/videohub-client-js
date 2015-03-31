@@ -116,8 +116,9 @@ angular.module('VideohubClient', [
 // Source: src/videohub-client/videohub-settings.js
 angular.module('VideohubClient.settings', [])
   .value('VIDEOHUB_API_BASE_URL', 'http://videohub.local/api/v0')
-  .value('VIDEOHUB_SECRET_TOKEN', 'BLAH BLAH')
-  .value('VIDEOHUB_DEFAULT_CHANNEL', 'The Onion');
+  .value('VIDEOHUB_DEFAULT_CHANNEL', 'The Onion')
+  .value('VIDEOHUB_SEARCH_DEBOUNCE_MS', 200)
+  .value('VIDEOHUB_SECRET_TOKEN', 'BLAH BLAH');
 
 // Source: src/videohub-client/videohub-suggest/videohub-picker-directive.js
 angular.module('VideohubClient.picker.directive', [
@@ -163,7 +164,7 @@ angular.module('VideohubClient.suggest.directive', [
         givenChannel: '@channel'
       },
       controller: function ($scope, $q, Video, BULBS_AUTOCOMPLETE_EVENT_KEYPRESS,
-          VIDEOHUB_DEFAULT_CHANNEL) {
+          VIDEOHUB_DEFAULT_CHANNEL, VIDEOHUB_SEARCH_DEBOUNCE_MS) {
 
         $scope.channel = $scope.givenChannel || VIDEOHUB_DEFAULT_CHANNEL;
 
@@ -195,11 +196,11 @@ angular.module('VideohubClient.suggest.directive', [
           return item.title;
         };
 
-        $scope.updateAutocomplete = function() {
+        $scope.updateAutocomplete = _.debounce(function() {
           $getItems().then(function(results) {
             $scope.autocompleteItems = results;
           });
-        };
+        }, VIDEOHUB_SEARCH_DEBOUNCE_MS);
 
         $scope.handleSelect = function(item) {
           $scope.clearAutocomplete();
