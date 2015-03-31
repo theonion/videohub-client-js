@@ -1,19 +1,19 @@
 <input
     class="form-control"
     type="text"
-    ng-model="searchTerm"
+    ng-model="writables.searchTerm"
     ng-change="updateAutocomplete()"
-    ng-keydown="handleKeypress($event)"
+    ng-blur="delayClearAutocomplete()"
     ng-keydown="handleKeypress($event)"
     ng-attr-placeholder="Search {{ channel || 'All' }} Videos">
 <div
-    ng-show="searchTerm"
+    ng-show="writables.searchTerm"
     class="results-wrapper">
   <bulbs-autocomplete-suggest
       ng-show="autocompleteItems.length > 0"
-      formatter="suggestFormatter(item)"
+      formatter="item.title"
       items="autocompleteItems"
-      on-select="suggestSelect(selection)">
+      on-select="handleSelect(selection)">
   </bulbs-autocomplete-suggest>
   <div
       ng-show="autocompleteItems.length === 0"

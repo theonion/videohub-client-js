@@ -16,6 +16,7 @@ angular.module('VideohubClient.api', [
 
       $hooks: {
         'before-request': function (_req) {
+          // ensure the videohub authorization token is on every request
           _req.headers = angular.extend(_req.headers || {}, {
             Authorization: 'Token ' + VIDEOHUB_SECRET_TOKEN
           });
@@ -85,6 +86,7 @@ angular.module('VideohubClient.api', [
           $postSearch: function (params) {
             return VideoSearch.$create(params).$asPromise()
               .then(function (data) {
+                // return video model array
                 return data.results;
               });
           }
@@ -95,7 +97,9 @@ angular.module('VideohubClient.api', [
     var VideoSearch = restmod.model(searchEndpoint).mix(videohubMix, {
       $hooks: {
         'after-create': function (_req) {
-          this.results = _req.data.results;
+          this.results = _.map(_req.data.results, function (video) {
+            return Video.$buildRaw(video);
+          });
         }
       }
     });

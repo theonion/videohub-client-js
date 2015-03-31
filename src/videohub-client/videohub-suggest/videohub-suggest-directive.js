@@ -19,11 +19,15 @@ angular.module('VideohubClient.suggest.directive', [
 
         $scope.channel = $scope.givenChannel || VIDEOHUB_DEFAULT_CHANNEL;
 
+        $scope.writables = {
+          searchTerm: ''
+        };
+
         var $getItems = function () {
           var defer = $q.defer();
-          if ($scope.searchTerm) {
+          if ($scope.writables.searchTerm) {
             var params = {
-              query: $scope.searchTerm
+              query: $scope.writables.searchTerm
             };
             if ($scope.channel) {
               params.filters = {
@@ -43,19 +47,36 @@ angular.module('VideohubClient.suggest.directive', [
           return item.title;
         };
 
-        $scope.suggestSelect = function(item) {
-          $scope.onSelect({video: item});
-          $scope.autocompleteItems = [];
-        };
-
         $scope.updateAutocomplete = function() {
           $getItems().then(function(results) {
             $scope.autocompleteItems = results;
           });
         };
 
-        $scope.handleKeypress = function($event) {
-          $scope.$broadcast(BULBS_AUTOCOMPLETE_EVENT_KEYPRESS, $event);
+        $scope.handleSelect = function(item) {
+          $scope.clearAutocomplete();
+          $scope.onSelect({video: item});
+        };
+
+        $scope.delayClearAutocomplete = function () {
+          _.delay(function () {
+            $scope.clearAutocomplete();
+            $scope.$digest();
+          }, 200);
+        };
+
+        $scope.clearAutocomplete = function () {
+          $scope.writables.searchTerm = '';
+          $scope.autocompleteItems = [];
+        };
+
+        $scope.handleKeypress = function ($event) {
+          if ($event.keyCode === 27) {
+            // esc, close dropdown
+            $scope.clearAutocomplete();
+          } else {
+            $scope.$broadcast(BULBS_AUTOCOMPLETE_EVENT_KEYPRESS, $event);
+          }
         };
 
       }
