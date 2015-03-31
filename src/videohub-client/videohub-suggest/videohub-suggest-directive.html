@@ -5,9 +5,19 @@
     ng-change="updateAutocomplete()"
     ng-keydown="handleKeypress($event)"
     ng-keydown="handleKeypress($event)"
-    ng-attr-placeholder="{{ placeholder }}">
-<bulbs-autocomplete-suggest
-    formatter="suggestFormatter(item)"
-    items="autocompleteItems"
-    on-select="suggestSelect(selection)">
-</bulbs-autocomplete-suggest>
+    ng-attr-placeholder="Search {{ channel || 'All' }} Videos">
+<div
+    ng-show="searchTerm"
+    class="results-wrapper">
+  <bulbs-autocomplete-suggest
+      ng-show="autocompleteItems.length > 0"
+      formatter="suggestFormatter(item)"
+      items="autocompleteItems"
+      on-select="suggestSelect(selection)">
+  </bulbs-autocomplete-suggest>
+  <div
+      ng-show="autocompleteItems.length === 0"
+      class="no-results">
+    No results found in {{ channel || 'all' }} videos
+  </div>
+</div>

@@ -19,8 +19,6 @@ angular.module('VideohubClient.suggest.directive', [
 
         $scope.channel = $scope.givenChannel || VIDEOHUB_DEFAULT_CHANNEL;
 
-        $scope.placeholder = 'Search ' + ($scope.channel || 'All') + ' Videos';
-
         var $getItems = function () {
           var defer = $q.defer();
           if ($scope.searchTerm) {
