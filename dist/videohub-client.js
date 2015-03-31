@@ -15,6 +15,7 @@ angular.module('VideohubClient.api', [
 
       $hooks: {
         'before-request': function (_req) {
+          // ensure the videohub authorization token is on every request
           _req.headers = angular.extend(_req.headers || {}, {
             Authorization: 'Token ' + VIDEOHUB_SECRET_TOKEN
           });
@@ -84,6 +85,7 @@ angular.module('VideohubClient.api', [
           $postSearch: function (params) {
             return VideoSearch.$create(params).$asPromise()
               .then(function (data) {
+                // return video model array
                 return data.results;
               });
           }
@@ -94,7 +96,9 @@ angular.module('VideohubClient.api', [
     var VideoSearch = restmod.model(searchEndpoint).mix(videohubMix, {
       $hooks: {
         'after-create': function (_req) {
-          this.results = _req.data.results;
+          this.results = _.map(_req.data.results, function (video) {
+            return Video.$buildRaw(video);
+          });
         }
       }
     });
@@ -163,13 +167,15 @@ angular.module('VideohubClient.suggest.directive', [
 
         $scope.channel = $scope.givenChannel || VIDEOHUB_DEFAULT_CHANNEL;
 
-        $scope.placeholder = 'Search ' + ($scope.channel || 'All') + ' Videos';
+        $scope.writables = {
+          searchTerm: ''
+        };
 
         var $getItems = function () {
           var defer = $q.defer();
-          if ($scope.searchTerm) {
+          if ($scope.writables.searchTerm) {
             var params = {
-              query: $scope.searchTerm
+              query: $scope.writables.searchTerm
             };
             if ($scope.channel) {
               params.filters = {
@@ -189,19 +195,36 @@ angular.module('VideohubClient.suggest.directive', [
           return item.title;
         };
 
-        $scope.suggestSelect = function(item) {
-          $scope.onSelect({video: item});
-          $scope.autocompleteItems = [];
-        };
-
         $scope.updateAutocomplete = function() {
           $getItems().then(function(results) {
             $scope.autocompleteItems = results;
           });
         };
 
-        $scope.handleKeypress = function($event) {
-          $scope.$broadcast(BULBS_AUTOCOMPLETE_EVENT_KEYPRESS, $event);
+        $scope.handleSelect = function(item) {
+          $scope.clearAutocomplete();
+          $scope.onSelect({video: item});
+        };
+
+        $scope.delayClearAutocomplete = function () {
+          _.delay(function () {
+            $scope.clearAutocomplete();
+            $scope.$digest();
+          }, 200);
+        };
+
+        $scope.clearAutocomplete = function () {
+          $scope.writables.searchTerm = '';
+          $scope.autocompleteItems = [];
+        };
+
+        $scope.handleKeypress = function ($event) {
+          if ($event.keyCode === 27) {
+            // esc, close dropdown
+            $scope.clearAutocomplete();
+          } else {
+            $scope.$broadcast(BULBS_AUTOCOMPLETE_EVENT_KEYPRESS, $event);
+          }
         };
 
       }
@@ -216,7 +239,7 @@ $templateCache.put('src/videohub-client/videohub-suggest/videohub-picker-directi
 
 
   $templateCache.put('src/videohub-client/videohub-suggest/videohub-suggest-directive.html',
-    "<input class=form-control ng-model=searchTerm ng-change=updateAutocomplete() ng-keydown=handleKeypress($event) ng-keydown=handleKeypress($event) ng-attr-placeholder=\"{{ placeholder }}\"><bulbs-autocomplete-suggest formatter=suggestFormatter(item) items=autocompleteItems on-select=suggestSelect(selection)></bulbs-autocomplete-suggest>"
+    "<input class=form-control ng-model=writables.searchTerm ng-change=updateAutocomplete() ng-blur=delayClearAutocomplete() ng-keydown=handleKeypress($event) ng-attr-placeholder=\"Search {{ channel || 'All' }} Videos\"><div ng-show=writables.searchTerm class=results-wrapper><bulbs-autocomplete-suggest ng-show=\"autocompleteItems.length > 0\" formatter=item.title items=autocompleteItems on-select=handleSelect(selection)></bulbs-autocomplete-suggest><div ng-show=\"autocompleteItems.length === 0\" class=no-results>No results found in {{ channel || 'all' }} videos</div></div>"
   );
 
 }]);
