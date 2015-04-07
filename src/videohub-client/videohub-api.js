@@ -24,6 +24,20 @@ angular.module('VideohubClient.api', [
       }
     };
 
+    /**
+     * A quicker fix than changing videohub api, ensures that search endpoint and
+     *  single video endpoint have the same structure for channels.
+     *
+     * @param {Model} record - record to transform.
+     */
+    var channelStringToObjectTransformer = function (record) {
+      if (_.isString(record.channel)) {
+        record.channel = {
+          name: record.channel
+        };
+      }
+    };
+
     var gatherKeywords = function (record) {
       // extract some keywords for this video
       var keywords = [];
@@ -73,10 +87,12 @@ angular.module('VideohubClient.api', [
       $hooks: {
         'after-fetch': function () {
           gatherKeywords(this);
+          channelStringToObjectTransformer(this);
         },
         'after-fetch-many': function () {
           _.each(this, function (record) {
             gatherKeywords(record);
+            channelStringToObjectTransformer(record);
           });
         }
       },
@@ -98,6 +114,8 @@ angular.module('VideohubClient.api', [
       $hooks: {
         'after-create': function (_req) {
           this.results = _.map(_req.data.results, function (video) {
+            gatherKeywords(video);
+            channelStringToObjectTransformer(video);
             return Video.$buildRaw(video);
           });
         }

@@ -200,7 +200,6 @@ module.exports = function (grunt) {
     'connect:example:keepalive'
   ]);
 
-
   grunt.registerTask('default', [
     'newer:jshint',
     'test',

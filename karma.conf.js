@@ -17,6 +17,7 @@ module.exports = function(config) {
       'bower_components/lodash/lodash.js',
       'bower_components/angular/angular.js',
       'bower_components/angular-mocks/angular-mocks.js',
+      'bower_components/angular-restmod/dist/angular-restmod-bundle.js',
       'src/**/*.html',
       'src/**/*.js',
     ],

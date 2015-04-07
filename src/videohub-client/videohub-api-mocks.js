@@ -12,7 +12,8 @@ angular.module('VideohubClient.api.mocks', [
       channel: {
         name: 'The Onion',
         description: 'News website'
-      }
+      },
+      published: moment().subtract(1, 'day').format()
     }, {
       id: 2,
       title: 'An Onion Video 2',
@@ -20,7 +21,8 @@ angular.module('VideohubClient.api.mocks', [
       channel: {
         name: 'The Onion',
         description: 'News website'
-      }
+      },
+      published: moment().subtract(2, 'days').format()
     },
     {
       id: 3,
@@ -29,7 +31,8 @@ angular.module('VideohubClient.api.mocks', [
       channel: {
         name: 'ClickHole',
         description: 'Clicking website'
-      }
+      },
+      published: moment().subtract(1, 'hour').format()
     }];
 
     var allEndpoint = new RegExp(VIDEOHUB_API_BASE_URL + '/videos\/?$');

@@ -22,11 +22,11 @@
     "_": true,
     "$": true,
     "angular": false,
-    "expect": true,
-    "spyOn": true,
     "describe": true,
-    "it": true,
+    "expect": true,
+    "moment": true,
     "inject": true,
-    "beforeEach": true
+    "it": true,
+    "spyOn": true,
   }
 }
