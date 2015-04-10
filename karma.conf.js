@@ -8,6 +8,12 @@ module.exports = function(config) {
     // base path, that will be used to resolve files and exclude
     basePath: '',
 
+    browsers: ['PhantomJS'],
+
+    singleRun: true,
+
+    autoWatch: false,
+
     // testing framework to use (jasmine/mocha/qunit/...)
     frameworks: ['jasmine'],
 
@@ -54,8 +60,12 @@ module.exports = function(config) {
 
   });
 
-  // this is local, just use Chrome
-  config.singleRun = false;
-  config.autoWatch = true;
-  config.browsers = ['Chrome'];
+  if (process.env.TRAVIS) {
+    // TODO: Add sauce labs info?
+  } else {
+    // this is local, just use Chrome
+    config.singleRun = false;
+    config.autoWatch = true;
+    config.browsers = ['Chrome'];
+  }
 };
