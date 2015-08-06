@@ -5,7 +5,7 @@
     ng-change="updateAutocomplete()"
     ng-blur="delayClearAutocomplete()"
     ng-keydown="handleKeypress($event)"
-    ng-attr-placeholder="Search {{ channel || 'All' }} Videos">
+    ng-attr-placeholder="Search for Videos">
 <div
     ng-show="writables.searchTerm"
     class="results-wrapper">
@@ -18,6 +18,6 @@
   <div
       ng-show="autocompleteItems.length === 0"
       class="no-results">
-    No results found in {{ channel || 'all' }} videos
+    No results found
   </div>
 </div>
