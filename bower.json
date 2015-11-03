@@ -1,6 +1,6 @@
 {
   "name": "videohub-client",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "appPath": "src",
   "private": true,
   "description": "America's Finest Videohub cms client module",
