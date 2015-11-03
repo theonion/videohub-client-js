@@ -1,7 +1,7 @@
 {
   "name": "videohub-client",
   "private": true,
-  "version": "0.1.6",
+  "version": "0.1.7",
   "dependencies": {},
   "devDependencies": {
     "chromedriver": "^2.13.0",

@@ -27,6 +27,6 @@
     "moment": true,
     "inject": true,
     "it": true,
-    "spyOn": true,
+    "spyOn": true
   }
 }

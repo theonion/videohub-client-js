@@ -22,6 +22,7 @@ module.exports = function(config) {
       'bower_components/jquery/dist/jquery.js',
       'bower_components/lodash/lodash.js',
       'bower_components/angular/angular.js',
+      'bower_components/restmod-style-drf-paged/restmod-style-drf-paged.js',
       'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/angular-restmod/dist/angular-restmod-bundle.js',
       'src/**/*.html',

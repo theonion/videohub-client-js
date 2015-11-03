@@ -33,7 +33,7 @@ describe('Factory: Video', function () {
       $httpBackend.expectGET(singleEndpoint)
         .respond(function (method, url, data, headers) {
           requestHeaders = headers;
-          return [200, {}]
+          return [200, {}];
         });
       $httpBackend.flush();
     });
@@ -44,7 +44,7 @@ describe('Factory: Video', function () {
       $httpBackend.expectPOST(searchEndpoint)
         .respond(function (method, url, data, headers) {
           requestHeaders = headers;
-          return [200, {}]
+          return [200, {results: []}];
         });
       $httpBackend.flush();
     });
@@ -66,7 +66,7 @@ describe('Factory: Video', function () {
           channel: {
             name: name
           }
-        }]
+        }];
       });
       $httpBackend.flush();
 
@@ -77,21 +77,34 @@ describe('Factory: Video', function () {
       var name = 'some video blah blah';
 
       var videos;
-      Video.$postSearch().then(function (results) {
-        videos = results;
+      Video.$postSearch().then(function (data) {
+        videos = data;
       });
 
-      $httpBackend.expectPOST(searchEndpoint).respond(function () {
-        return [200, {
-          results: [{
-            id: 123,
-            channel: name
-          }]
+      $httpBackend.expectPOST(searchEndpoint).respond({
+        results: [{
+          id: 123,
+          channel: name
         }]
       });
       $httpBackend.flush();
 
       expect(videos[0].channel.name).toBe(name);
     });
+  });
+
+  it('should be able to retrieve the content for a list of videos', function () {
+
+    var content = {results: []};
+    var respContent;
+
+    Video.$postSearch().then(function (data) {
+      respContent = data;
+    });
+
+    $httpBackend.expectPOST(searchEndpoint).respond(content);
+    $httpBackend.flush();
+
+    expect(respContent).toEqual(content.results);
   });
 });
