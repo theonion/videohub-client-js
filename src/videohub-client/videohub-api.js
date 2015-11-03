@@ -2,6 +2,7 @@
 
 angular.module('VideohubClient.api', [
   'restmod',
+  'restmod.styles.drfPaged',
   'VideohubClient.settings'
 ])
   .factory('Video', function (restmod, VIDEOHUB_API_BASE_URL, VIDEOHUB_SECRET_TOKEN) {
@@ -9,7 +10,7 @@ angular.module('VideohubClient.api', [
     var videosEndpoint = 'videos';
     var searchEndpoint = videosEndpoint + '/search/';
 
-    var videohubMix = {
+    var videohubMix = restmod.mixin('DjangoDRFPagedApi', {
       $config: {
         urlPrefix: VIDEOHUB_API_BASE_URL
       },
@@ -22,7 +23,7 @@ angular.module('VideohubClient.api', [
           });
         }
       }
-    };
+    });
 
     /**
      * A quicker fix than changing videohub api, ensures that search endpoint and
@@ -100,10 +101,11 @@ angular.module('VideohubClient.api', [
       $extend: {
         Model: {
           $postSearch: function (params) {
+            // HACK : because endpoint is a POST
             return VideoSearch.$create(params).$asPromise()
-              .then(function (data) {
+              .then(function (model) {
                 // return video model array
-                return data.results;
+                return model.$response.data.results;
               });
           }
         }
@@ -111,6 +113,9 @@ angular.module('VideohubClient.api', [
     });
 
     var VideoSearch = restmod.model(searchEndpoint).mix(videohubMix, {
+      $config: {
+        jsonRootSingle: 'results'
+      },
       $hooks: {
         'after-create': function (_req) {
           this.results = _.map(_req.data.results, function (video) {
