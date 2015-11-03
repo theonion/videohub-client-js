@@ -8,7 +8,7 @@ angular.module('VideohubClient.api', [
   .factory('Video', function (restmod, VIDEOHUB_API_BASE_URL, VIDEOHUB_SECRET_TOKEN) {
 
     var videosEndpoint = 'videos';
-    var searchEndpoint = videosEndpoint + '/search/';
+    var searchEndpoint = videosEndpoint + '/search';
 
     var videohubMix = restmod.mixin('DjangoDRFPagedApi', {
       $config: {
